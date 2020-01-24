@@ -27,9 +27,9 @@ class Dot():
         self.speedY = random.randint(-10, 10) * 0.1
         self.radius = random.randint(1, 5)
 
-    def update(self):
-        self.x += self.speedX
-        self.y += self.speedY
+    def update(self, dt):
+        self.x += self.speedX * (dt * 10 ** -1)
+        self.y += self.speedY * (dt * 10 ** -1)
 
     def isOutofScreen(self):
         if self.x < 0 or self.x > ScreenSize[0] or self.y < 0 or self.y > ScreenSize[1]:
@@ -62,20 +62,16 @@ while True:
             sys.exit()
     screen.fill(BLACK)
 
-    clock.tick(60)
+    dt = clock.tick(120)
 
     while len(dots) < 100:
         dots.append(Dot(random.randint(0, ScreenSize[0]), random.randint(0, ScreenSize[1])))
 
     # update every dot in the list
     for dot in dots:
-        dot.update()
+        dot.update(dt)
         if dot.isOutofScreen():
             dots.remove(dot)
-
-
-
-
 
     # move away the dots in the range of the mouse
     mousePos = py.math.Vector2()
